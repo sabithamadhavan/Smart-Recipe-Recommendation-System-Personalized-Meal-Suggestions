@@ -1,0 +1,39 @@
+const recipes = [
+    { name: "Garlic Chicken", ingredients: ["chicken", "garlic", "onion"] },
+    { name: "Vegetable Stir Fry", ingredients: ["broccoli", "carrot", "bell pepper"] },
+    { name: "Pasta Primavera", ingredients: ["pasta", "tomato", "vegetables"] },
+    { name: "Chicken Curry", ingredients: ["chicken", "curry", "rice"] },
+    { name: "Mushroom Risotto", ingredients: ["mushrooms", "rice", "onion"] }
+];
+
+function recommendRecipes() {
+    const input = document.getElementById("ingredients").value;
+    const inputIngredients = input.split(',').map(ingredient => ingredient.trim().toLowerCase());
+    const recommendations = [];
+
+    recipes.forEach(recipe => {
+        const recipeIngredients = recipe.ingredients.map(ing => ing.toLowerCase());
+        const hasAllIngredients = inputIngredients.every(ingredient => recipeIngredients.includes(ingredient));
+        
+        if (hasAllIngredients) {
+            recommendations.push(recipe.name);
+        }
+    });
+
+    displayRecommendations(recommendations);
+}
+
+function displayRecommendations(recommendations) {
+    const recommendationsDiv = document.getElementById("recommendations");
+    recommendationsDiv.innerHTML = '';
+
+    if (recommendations.length > 0) {
+        recommendations.forEach(recipe => {
+            const recipeElement = document.createElement("div");
+            recipeElement.textContent = recipe;
+            recommendationsDiv.appendChild(recipeElement);
+        });
+    } else {
+        recommendationsDiv.textContent = 'No recipes found. Please try different ingredients.';
+    }
+}
